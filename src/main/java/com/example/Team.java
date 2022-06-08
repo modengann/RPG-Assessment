@@ -3,9 +3,6 @@ package com.example;
 import java.util.ArrayList;
 
 public class Team {
-    private int size;
-
-
     
 /* * * * * Beginning of Quiz * * * * */
 
@@ -14,13 +11,13 @@ public class Team {
      * to start adding players.
      */
 
-    public Team(int size) {
-        this.size = size;
+    public Team() {
+       
     }
 
     
     /**
-     * Add the given player to this team if there is room (i.e. the team is not at max size).
+     * Add the given player to this team.
      * @param player Player to add
      */
     public void addPlayer(Player player){
