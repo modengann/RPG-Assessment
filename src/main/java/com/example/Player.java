@@ -43,7 +43,6 @@ public class Player {
     /* * * * * * * BEGIN QUIZ HERE * * * * * * * */
 
 
-    /* * * * * * * B Level Problem * * * * * * * */
     /**
      * Determine whether this player matches another player. This is more complicated than a simple
      * <code>equals()</code> method, because not all the instance variables will be used as criteria
@@ -68,7 +67,7 @@ public class Player {
         return null;
     }
 
-    public void setTevel(Team teamInput){
+    public void setTeam(Team teamInput){
         
     }
 
