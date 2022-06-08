@@ -1,6 +1,9 @@
 package com.example;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -41,46 +44,81 @@ public class TestCases {
         
 
         assertFalse("A player should not match a player with different action.",
-                fixedLocation.matches(differentAction));
+                fixedPlayer.matches(differentName));
 
-        assertFalse("A player should not match a player with different x.",
-                fixedLocation.matches(differentX));
+        assertFalse("A player should not match a player with different number.",
+                fixedPlayer.matches(differentNumber));
 
-        assertFalse("A player should not match a player with different y.",
-                fixedLocation.matches(differentY));
-
-        assertTrue("An x of -1 should match any x.",
-                fixedLocation.matches(anyX));
-
-        assertTrue("A y of -1 should match any y.",
-                fixedLocation.matches(anyY));
+        assertTrue("An number of -1 should match any number.",
+                fixedPlayer.matches(anyNumber));
 
         assertTrue(
-                "If one player matches any x and another matches any y, and their arguments match, the two should match.",
-                anyX.matches(anyY));
+                "If one player matches any number and another matches any name, and their positions match, the two should match.",
+                anyNumber.matches(anyName));
 
         assertTrue(
-                "If one player matches any action and another matches any argument, and their x and y match, the two should match.",
-                anyArg.matches(anyAction));
-
-        assertFalse(
-                "Even if null or -1 are present in other characteristics, any characteristic that fails (x, in this case) should mean that the two don't match.",
-                anyY.matches(anyArg));
+                "If one player matches any name and another matches any position, and their numbers match, the two should match.",
+                anyPosition.matches(anyName));
 
         assertTrue("A Player with (-1, null, null) should match any player.",
-                any.matches(fixedLocation) && any.matches(differentArgs) && any.matches(differentAction) &&
-                        any.matches(differentX) && any.matches(differentY) && any.matches(anyY) && any.matches(anyX) &&
-                        any.matches(anyArg) && any.matches(anyAction));
+                any.matches(fixedPlayer) && any.matches(differentObjects) && any.matches(differentName) &&
+                        any.matches(differentPosition) && any.matches(differentNumber) && any.matches(anyNumber) && any.matches(anyName) &&
+                        any.matches(anyPosition));
 
     }
 
     @Test
     public void testSearching() {
+        Player a = new Player(1, null, null);
+        Player b = new Player(1, null, null);
+        Player c = new Player(1, null, null);
+        Player d = new Player(2, null, null);
+        Player e = new Player(1, null, null);
+        Player n = new Player(9, null, null);
+        
+        Team team = new Team());
+        team.addPlayer(a);
+        team.addPlayer(b);
+        team.addPlayer(c);
+        team.addPlayer(d);
+        team.addPlayer(e);
+        
+        // Test the basic getPlayer
+        assertTrue("The Player added first should be the one returned by the simple getScript(script).", team.getPlayer(a) != e);
+        assertTrue("Using a Player itself as a template should always locate that script in a Team.", team.getPlayer(a) == a);
+        assertTrue("If a Player is not in a team, getPlayer(Player) should return null.", team.getPlayer(n) == null);
+        
+        // Test the array getPlayers()
+        ArrayList<Player> players = team.getPlayers(new Player(1, null, null));
+        assertTrue("The getPlayers(players) method should return an array of all the Players that match the given template.", players != null && players.size() == 4);
+        assertTrue("The getPlayers(players) method should Players listed in the order they were added.", players.get(0) == a && players.get(1) == b && players.get(2) == c && Players.get(3) == e);
+        players = team.getPlayers(n);
+        assertTrue("If there are no Players matching the template, |getPlayers()| should return an empty ArrayList.", players != null && players.isEmpty());
 
     }
 
     @Test
-    public void testAddAndRemove() {
+    public void testAdd() {
+        Level level1 = new Level(), level2 = new Level();
+        Script a = new Script(1, 2, null, null);
+        
+        // Test the methods that work from the |Level| side of things.
+        assertTrue("A newly created script should have level null; it is not in any level yet.", a.getLevel() == null);
+        level1.addScript(a);
+        assertTrue("Adding a script to a level with addScript() should change the level of that script.", a.getLevel() == level1);
+        assertTrue("Adding a script to a level should make it visible to getScript() in that level.", level1.getScript(a) == a);
 
+
+        level1.removeScript(a);
+        assertTrue("Removing a script from a level should set its level to null.", a.getLevel() == null);
+        assertTrue("If a script has been removed from a level, I should not find it when I ask that level to getScript().", level1.getScript(a) == null);
+
+
+        level2.addScript(a);
+        level1.addScript(a);
+        assertTrue("If I add a script to another level, it should be removed from the level it is in.", level2.getScript(a) == null);
+        assertTrue("If I add a script to another level, it should appear inthe new level.", level1.getScript(a) == a);
+        
+       
     }
 }
