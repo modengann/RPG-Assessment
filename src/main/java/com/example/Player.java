@@ -68,6 +68,10 @@ public class Player {
         return null;
     }
 
+    public void setTevel(Team teamInput){
+        
+    }
+
 
      /**
      * If this player is on a Team, <code>remove()</code> will remove it from the Team.
@@ -77,30 +81,6 @@ public class Player {
 
     }
 
-
-    /**
-     * Move this player to the given position on the given team. If it is already in that team,
-     * only its position will be changed. In particular, this method will not change the position
-     * of this player in the player list for its team if it is not, in fact, moving to a new team.
-     * 
-     * @param position position to move to
-     * @param team team in which this player should end up. If <code>team</code> is null, the player
-     *              is removed from its team.
-     */
-    public void move(String position, Team team){
-
-    }
-
-    /**
-     * Move this player to the same location as the given player, in the same team as that player.
-     * If it is already in that team, only its position will be changed. In particular, this method
-     * will not change the position of this player in the player list for its team if it is not,
-     * in fact, moving to a new team.
-     * 
-     * @param Player Other player to whose location this one should move
-     */
-    public void move(Player other) {
-    }
 
     
 }

@@ -76,7 +76,7 @@ public class TestCases {
         Player e = new Player(1, null, null);
         Player n = new Player(9, null, null);
         
-        Team team = new Team());
+        Team team = new Team();
         team.addPlayer(a);
         team.addPlayer(b);
         team.addPlayer(c);
@@ -84,41 +84,39 @@ public class TestCases {
         team.addPlayer(e);
         
         // Test the basic getPlayer
-        assertTrue("The Player added first should be the one returned by the simple getScript(script).", team.getPlayer(a) != e);
-        assertTrue("Using a Player itself as a template should always locate that script in a Team.", team.getPlayer(a) == a);
+        assertTrue("The Player added first should be the one returned by the simple getPlayer(Player).", team.getPlayer(a) != e);
+        assertTrue("Using a Player itself as a template should always locate that Player in a Team.", team.getPlayer(a) == a);
         assertTrue("If a Player is not in a team, getPlayer(Player) should return null.", team.getPlayer(n) == null);
         
         // Test the array getPlayers()
         ArrayList<Player> players = team.getPlayers(new Player(1, null, null));
         assertTrue("The getPlayers(players) method should return an array of all the Players that match the given template.", players != null && players.size() == 4);
-        assertTrue("The getPlayers(players) method should Players listed in the order they were added.", players.get(0) == a && players.get(1) == b && players.get(2) == c && Players.get(3) == e);
+        assertTrue("The getPlayers(players) method should Players listed in the order they were added.", players.get(0) == a && players.get(1) == b && players.get(2) == c && players.get(3) == e);
         players = team.getPlayers(n);
         assertTrue("If there are no Players matching the template, |getPlayers()| should return an empty ArrayList.", players != null && players.isEmpty());
 
     }
 
     @Test
-    public void testAdd() {
-        Level level1 = new Level(), level2 = new Level();
-        Script a = new Script(1, 2, null, null);
+    public void testAddAndRemove() {
+        Team team1 = new Team(), team2 = new Team();
+        Player a = new Player(1, null, null);
         
-        // Test the methods that work from the |Level| side of things.
-        assertTrue("A newly created script should have level null; it is not in any level yet.", a.getLevel() == null);
-        level1.addScript(a);
-        assertTrue("Adding a script to a level with addScript() should change the level of that script.", a.getLevel() == level1);
-        assertTrue("Adding a script to a level should make it visible to getScript() in that level.", level1.getScript(a) == a);
+        // Test the methods that work from the |Team| side of things.
+        assertTrue("A newly created Player should have Team null; it is not in any Team yet.", a.getTeam() == null);
+
+        team1.addPlayer(a);
+        assertTrue("Adding a Player to a Team with addPlayer() should change the Team of that Player.", a.getTeam() == team1);
+        assertTrue("Adding a Player to a Team should make it visible to getPlayer() in that Team.", team1.getPlayer(a) == a);
 
 
-        level1.removeScript(a);
-        assertTrue("Removing a script from a level should set its level to null.", a.getLevel() == null);
-        assertTrue("If a script has been removed from a level, I should not find it when I ask that level to getScript().", level1.getScript(a) == null);
+        team1.removePlayer(a);
+        assertTrue("Removing a Player from a Team should set its Team to null.", a.getTeam() == null);
+        assertTrue("If a Player has been removed from a Team, I should not find it when I ask that Team to getPlayer().", team1.getPlayer(a) == null);
 
-
-        level2.addScript(a);
-        level1.addScript(a);
-        assertTrue("If I add a script to another level, it should be removed from the level it is in.", level2.getScript(a) == null);
-        assertTrue("If I add a script to another level, it should appear inthe new level.", level1.getScript(a) == a);
-        
-       
+        team2.addPlayer(a);
+        team1.addPlayer(a);
+        assertTrue("If I add a Player to another team, it should be removed from the team it is in.", team2.getPlayer(a) == null);
+        assertTrue("If I add a Player to another team, it should appear inthe new team.", team1.getPlayer(a) == a);
     }
 }
